@@ -1,0 +1,74 @@
+/*package whatever //do not write package name here */
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+    static class Pair{
+        int x,y,dist;
+        Pair(int x,int y,int dist)
+        {
+            this.x=x;
+            this.y=y;
+            this.dist=dist;
+        }
+    }
+    static int dx[] = {2,2,-2,-2,1,1,-1,-1};
+    static  int dy[] = {-1,1,1,-1,2,-2,2,-2};
+	public static void main (String[] args) throws IOException{
+		//code
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
+		int tc=Integer.parseInt(br.readLine());
+		while(tc-- >0)
+		{
+		    String[] str=br.readLine().split(" ");
+		    int n=Integer.parseInt(str[0]),m=Integer.parseInt(str[1]);
+		    String[] str1=br.readLine().split(" ");
+		    int s1=Integer.parseInt(str1[0]),s2=Integer.parseInt(str1[1]),d1=Integer.parseInt(str1[2]),d2=Integer.parseInt(str1[3]);
+		    if(s1==d1 && s2==d2)
+		    {
+		        bw.write(0+"\n");
+		        continue;
+		    }
+		    boolean flag=false;
+		    Queue<Pair> q=new LinkedList<Pair>();
+		    boolean[][] vis=new boolean[n+1][m+1];
+		    q.add(new Pair(s1,s2,0));
+		    vis[s1][s2]=true;
+		    
+		    while(!q.isEmpty())
+		    {
+		           int size=q.size();
+		           for(int i=0;i<size;i++)
+		           {
+		           Pair p=q.poll();
+		           int cr=p.x;
+		           int cc=p.y;
+		           int dis=p.dist;
+		           if(cr==d1 && cc==d2)
+		           {
+		              flag=true;
+		              bw.write(dis+"\n");
+		              break;
+		           }
+		           for(int j=0;j<8;j++)
+		           {
+		               int nx=cr+dx[j],ny=cc+dy[j];
+		               if(nx>0 && nx<=n && ny>0 && ny<=m && !vis[nx][ny])
+		               {
+		                   vis[nx][ny]=true;
+		                   q.add(new Pair(nx,ny,dis+1));
+		               }
+		           }
+		           }
+		    }
+		    if(flag==false)
+		    {
+		        bw.write(-1+"\n");
+		    }
+		}
+		bw.flush();
+	}
+}
